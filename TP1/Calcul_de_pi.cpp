@@ -33,8 +33,10 @@ double approximate_pi( unsigned long nbSamples )
 int main( int nargs, char* argv[] )
 {
     int rank, nbp, tag =1;
-    int nbsamples = 10000000;
-    double total = 0,result;
+    int samples = 30000000;
+    double result = 0,parcial;
+
+
 	MPI_Init( &nargs, &argv );
 	MPI_Comm globComm;
 	MPI_Comm_dup(MPI_COMM_WORLD, &globComm);
@@ -42,26 +44,24 @@ int main( int nargs, char* argv[] )
 	MPI_Comm_rank(globComm, &rank);
     MPI_Status Stat; 
 
+
     if(rank == 0)
     {
         for(int i=1; i <= nbp -1; i++)
         {
-            MPI_Recv(&result , 1, MPI_DOUBLE , i , tag, MPI_COMM_WORLD , &Stat);
-            total += result;
+            MPI_Recv(&parcial , 1, MPI_DOUBLE , i , tag, MPI_COMM_WORLD , &Stat);
+            result += parcial;
         }
 
-        total = total/(nbp -1);
-        std::cout << "PI = " << total <<"\n"<< std::endl;
+        result = result/(nbp -1);
+        std::cout << "PI = " << result <<"\n"<< std::endl;
 
     }
     else
     {
-        result = approximate_pi(nbsamples/(nbp-1));
-        MPI_Send(&result , 1, MPI_DOUBLE , 0 , tag, MPI_COMM_WORLD);
+        parcial = approximate_pi(samples);
+        MPI_Send(&parcial , 1, MPI_DOUBLE , 0 , tag, MPI_COMM_WORLD);
     }
-    
-
-
 	MPI_Finalize();
 	return EXIT_SUCCESS;
 }
