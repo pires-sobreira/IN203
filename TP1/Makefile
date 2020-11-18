@@ -38,10 +38,25 @@ Calcul_de_pi.exe:	Calcul_de_pi.cpp
 Calcul_de_pi: Calcul_de_pi.exe
 	mpiexec -oversubscribe -np 16 ./Calcul_de_pi.exe
 
+Calcul_de_pi_nb.exe:	Calcul_de_pi_nb.cpp
+	$(CXX) $(CXXFLAGS) -o Calcul_de_pi_nb.exe Calcul_de_pi_nb.cpp $(LIB)
+Calcul_de_pi_nb: Calcul_de_pi_nb.exe
+	mpiexec -oversubscribe -np 16 ./Calcul_de_pi_nb.exe
+
 Diffusion_hypercube.exe:	Diffusion_hypercube.cpp
 	$(CXX) $(CXXFLAGS) -o Diffusion_hypercube.exe Diffusion_hypercube.cpp $(LIB)
 Diffusion_hypercube: Diffusion_hypercube.exe
 	mpiexec -oversubscribe -np 16 ./Diffusion_hypercube.exe
+
+Diffusion_hypercube2.exe:	Diffusion_hypercube2.cpp
+	$(CXX) $(CXXFLAGS) -o Diffusion_hypercube2.exe Diffusion_hypercube2.cpp $(LIB)
+Diffusion_hypercube2: Diffusion_hypercube2.exe
+	mpiexec -oversubscribe -np 16 ./Diffusion_hypercube2.exe
+
+Hypercube.exe:	Hypercube.cpp
+	$(CXX) $(CXXFLAGS) -o Hypercube.exe Hypercube.cpp $(LIB)
+Hypercube: Hypercube.exe
+	mpiexec -oversubscribe -np 16 ./Hypercube.exe
 
 help: 
 	@echo "Available targets : "
